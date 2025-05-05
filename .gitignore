@@ -192,6 +192,9 @@ _deps
 # Mono auto generated files
 mono_crash.*
 
+# Custom build path
+Build
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
