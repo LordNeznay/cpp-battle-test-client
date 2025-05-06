@@ -4,6 +4,7 @@
 #include "game/base/UnitPool.hpp"
 #include "game/base/RandomManager.hpp"
 #include "game/unit_creators/SwordsmanCreator.hpp"
+#include "game/unit_creators/HunterCreator.hpp"
 #include "game/aspects/HealthAspect.hpp"
 #include "game/aspects/AIAspect.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
@@ -108,7 +109,7 @@ void GameWorld::spawnSwordsman(const sw::io::SpawnSwordsman& cmd)
 
 void GameWorld::spawnHunter(const sw::io::SpawnHunter& cmd)
 {
-	// TODO
+	HunterCreator::create(*this, cmd);
 }
 
 void GameWorld::marchStart(const sw::io::March& cmd)

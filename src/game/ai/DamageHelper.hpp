@@ -18,8 +18,11 @@ public:
 	/// </summary>
 	/// <param name="pos"></param>
 	/// <param name="filter"></param>
+	/// <param name="radiusMin">Минимальный радиус (включительно)</param>
+	/// <param name="radiusMax">Максимальный радиус (включительно)</param>
 	/// <returns></returns>
-	static std::vector<Unit*> getUnitsInRadius(Map& map, const Vec2& pos, int radius, const std::function<bool(const Unit& unit)> filter);
+	static std::vector<Unit*> getUnitsInRadius(
+		Map& map, const Vec2& pos, int radiusMin, int radiusMax, const std::function<bool(const Unit& unit)> filter);
 
 	/// <summary>
 	/// Вспомогательные фильтры юнитов

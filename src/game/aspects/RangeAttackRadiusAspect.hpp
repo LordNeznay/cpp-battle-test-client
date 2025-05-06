@@ -7,16 +7,22 @@ namespace aspect
 	/// <summary>
 	/// Хранилище для показателя дальности стрелковой атаки
 	/// </summary>
-	class RandgeAttackRadius : public Aspect
+	class RangeAttackRadius : public Aspect
 	{
 	public:
-		RandgeAttackRadius(int value) :
-				mValue(value)
+		RangeAttackRadius(int min, int max) :
+				mMinValue(min),
+				mMaxValue(max)
 		{}
 
 		/// <summary>
-		/// Значение
+		/// Минимальный радиус
 		/// </summary>
-		int mValue = 0;
+		int mMinValue = 0;
+
+		/// <summary>
+		/// Максимальный радиус
+		/// </summary>
+		int mMaxValue = 0;
 	};
 }

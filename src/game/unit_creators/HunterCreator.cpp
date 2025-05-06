@@ -1,4 +1,4 @@
-#include "SwordsmanCreator.hpp"
+#include "HunterCreator.hpp"
 #include "game/base/GameWorld.hpp"
 #include "game/base/Unit.hpp"
 #include "game/base/UnitPool.hpp"
@@ -7,19 +7,23 @@
 #include "game/aspects/AIAspect.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
 #include "game/aspects/StrengthAspect.hpp"
+#include "game/aspects/AgilityAspect.hpp"
 #include "game/aspects/HealthAspect.hpp"
 #include "game/aspects/MeleeAttackRadiusAspect.hpp"
+#include "game/aspects/RangeAttackRadiusAspect.hpp"
 
 #include "game/ai/ActionChainAI.hpp"
 #include "game/ai/actions/MeleeAttackAction.hpp"
+#include "game/ai/actions/RangeAttackAction.hpp"
 #include "game/ai/actions/MovementAction.hpp"
 
-#include "IO/Commands/SpawnSwordsman.hpp"
+#include "IO/Commands/SpawnHunter.hpp"
 
-void SwordsmanCreator::create(GameWorld& world, const sw::io::SpawnSwordsman& cmd)
+void HunterCreator::create(GameWorld& world, const sw::io::SpawnHunter& cmd)
 {
 	auto& unit = world.mUnitPool->spawnUnit(cmd.unitId);
 	auto unitAI = std::make_unique<ai::ActionChainAI>();
+	unitAI->addAction(std::make_unique<ai::action::RangeAttack>());
 	unitAI->addAction(std::make_unique<ai::action::MeleeAttack>());
 	unitAI->addAction(std::make_unique<ai::action::Movement>());
 
@@ -29,6 +33,9 @@ void SwordsmanCreator::create(GameWorld& world, const sw::io::SpawnSwordsman& cm
 
 	unit.addAspect(aspect::Strength{(int)cmd.strength});
 	unit.addAspect(aspect::MeleeAttackRadius{ 0, 1 });
+
+	unit.addAspect(aspect::Agility{(int)cmd.agility});
+	unit.addAspect(aspect::RangeAttackRadius{ 2, (int)cmd.range });
 
 	world.mMap->addUnit(unit, Vec2{(int)cmd.x, (int)cmd.y});
 }

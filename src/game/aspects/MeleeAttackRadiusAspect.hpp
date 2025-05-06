@@ -10,13 +10,19 @@ namespace aspect
 	class MeleeAttackRadius : public Aspect
 	{
 	public:
-		MeleeAttackRadius(int value) :
-				mValue(value)
+		MeleeAttackRadius(int min, int max) :
+				mMinValue(min),
+				mMaxValue(max)
 		{}
 
 		/// <summary>
-		/// Значение
+		/// Минимальный радиус
 		/// </summary>
-		int mValue = 0;
+		int mMinValue = 0;
+
+		/// <summary>
+		/// Максимальный радиус
+		/// </summary>
+		int mMaxValue = 0;
 	};
 }

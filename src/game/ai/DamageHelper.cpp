@@ -21,13 +21,13 @@ void DamageHelper::applyDamageTo(Unit& unit, int value)
 }
 
 std::vector<Unit*> DamageHelper::getUnitsInRadius(Map& map, 
-	const Vec2& pos, int radius, const std::function<bool(const Unit& unit)> filter)
+	const Vec2& pos, int radiusMin, int radiusMax, const std::function<bool(const Unit& unit)> filter)
 {
 	std::vector<Unit*> result;
 
 	map.forEachCellInRadius(
 		pos,
-		radius,
+		radiusMin, radiusMax,
 		[&filter, &result](const Vec2& pos, MapCell& cell) { 
 			std::copy_if(
 				cell.unitList.begin(),

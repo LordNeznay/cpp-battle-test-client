@@ -96,9 +96,9 @@ std::vector<Vec2> Map::findPath(
 	return path;
 }
 
-void Map::forEachCellInRadius(const Vec2& center, int radius, const forEachCellInRadiusCb& visitCb)
+void Map::forEachCellInRadius(const Vec2& center, int radiusMin, int radiusMax, const forEachCellInRadiusCb& visitCb)
 {
-	if (radius < 0)
+	if (radiusMin < 0 || radiusMax < radiusMin)
 	{
 		return;
 	}
@@ -114,14 +114,19 @@ void Map::forEachCellInRadius(const Vec2& center, int radius, const forEachCellI
 		Vec2 current = queue.front();
 		queue.pop();
 
-		int dx = current.x - center.x;
-		int dy = current.y - center.y;
-		if (abs(dx) + abs(dy) > radius)
+		int dx = std::abs(current.x - center.x);
+		int dy = std::abs(current.y - center.y);
+		int dist = dx + dy;
+
+		if (dist > radiusMax)
 		{
 			continue;
 		}
 
-		visitCb(current, *getCell(current));
+		if (dist >= radiusMin)
+		{
+			visitCb(current, *getCell(current));
+		}
 
 		for (const Vec2& dir : sDefaultWalkDirections)
 		{
