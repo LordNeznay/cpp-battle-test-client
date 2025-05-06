@@ -8,35 +8,61 @@
 
 Unit& UnitPool::spawnUnit(UnitId unitId)
 {
-	mStorage.emplace_back(std::make_unique<Unit>());
-	auto& unit = mStorage.back();
+	auto it = mStorage.emplace(unitId, std::make_unique<Unit>()).first;
 
-	unit->mId = unitId;
+	auto& unit = *it->second;
+	unit.mId = unitId;
 
-	return *unit;
+	return unit;
 }
 
 void UnitPool::removeDeathUnits(GameWorld& world)
 {
-	auto from = std::remove_if(
-		mStorage.begin(),
-		mStorage.end(),
-		[](const auto& unit) {
-			if (auto status = unit->getAspect<aspect::DeathStatus>())
-			{
-				return status->mIsDead;
-			}
-			return false;
-		});
-
-	if (auto logger = world.getEventLogger())
-	{
-		for (auto it = from; it != mStorage.end(); ++it)
+	const auto isNeedToRemove = [](const Unit& unit) {
+		if (auto status = unit.getAspect<aspect::DeathStatus>())
 		{
-			logger->log(
-				world.getSimulationStep(), sw::io::UnitDied { (*it)->getId() });
+			return status->mIsDead;
+		}
+		return false;
+	};
+
+	for (auto it = mStorage.begin(); it != mStorage.end();)
+	{
+		if (isNeedToRemove(*it->second))
+		{
+			beforeUnitErase(world, *it->second);
+			it = mStorage.erase(it);
+		}
+		else
+		{
+			it = std::next(it);
 		}
 	}
+}
 
-	mStorage.erase(from, mStorage.end());
+void UnitPool::beforeUnitErase(GameWorld& world, Unit& unit) {
+	if (auto logger = world.getEventLogger())
+	{
+		logger->log(world.getSimulationStep(), sw::io::UnitDied{unit.getId()});
+	}
+}
+
+Unit* UnitPool::getUnit(UnitId unitId) 
+{
+	if (auto it = mStorage.find(unitId); it != mStorage.end())
+	{
+		return it->second.get();
+	}
+
+	return nullptr;
+}
+
+const Unit* UnitPool::getUnit(UnitId unitId) const
+{
+	if (auto it = mStorage.find(unitId); it != mStorage.end())
+	{
+		return it->second.get();
+	}
+
+	return nullptr;
 }

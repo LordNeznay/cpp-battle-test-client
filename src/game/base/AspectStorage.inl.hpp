@@ -1,14 +1,17 @@
 
 template <typename T>
-inline void AspectStorage::addAspect(T&& aspect)
+inline T* AspectStorage::addAspect(T&& aspect)
 {
 	static_assert(std::is_base_of<Aspect, T>::value, "T must be derived from Aspect");
 
-	bool ok = mAspects.emplace(std::type_index(typeid(T)), std::make_unique<T>(std::forward<T>(aspect))).second;
+	auto [it, ok] = mAspects.emplace(std::type_index(typeid(T)), std::make_unique<T>(std::forward<T>(aspect)));
 	if (not ok)
 	{
 		// Пока ошибку проигнорим, но когда-то в будущем надо будет обрабатывать
+		return nullptr;
 	}
+
+	return dynamic_cast<T*>(it->second.get());
 }
 
 template <typename T>

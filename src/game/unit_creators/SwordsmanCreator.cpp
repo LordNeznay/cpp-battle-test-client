@@ -6,7 +6,7 @@
 
 #include "game/aspects/AIAspect.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
-#include "game/aspects/MovementTargetAspect.hpp"
+#include "game/aspects/StrengthAspect.hpp"
 
 #include "game/ai/ActionChainAI.hpp"
 #include "game/ai/actions/MeleeAttackAction.hpp"
@@ -22,6 +22,7 @@ void SwordsmanCreator::create(GameWorld& world, const sw::io::SpawnSwordsman& cm
 
 	unit.addAspect(aspect::AI(std::move(unitAI)));
 	unit.addAspect(aspect::DeathStatus{});
+	unit.addAspect(aspect::Strength{(int)cmd.strength});
 
 	world.mMap->addUnit(unit, Vec2{(int)cmd.x, (int)cmd.y});
 }

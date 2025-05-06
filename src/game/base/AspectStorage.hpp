@@ -27,7 +27,7 @@ public:
 	/// </summary>
 	/// <typeparam name="T">Тип аспекта</typeparam>
 	template <typename T>
-	void addAspect(T&& aspect);
+	T* addAspect(T&& aspect);
 
 	/// <summary>
 	/// Удаляем указанный аспект с объекта

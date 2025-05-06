@@ -10,12 +10,6 @@ namespace aspect
 	class MovementTarget : public Aspect
 	{
 	public:
-		MovementTarget(int x, int y) :
-				mX(x),
-				mY(y)
-		{}
-
-		int mX = 0;
-		int mY = 0;
+		Vec2 mTargetPos;
 	};
 }

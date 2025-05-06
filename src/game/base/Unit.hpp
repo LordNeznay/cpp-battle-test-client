@@ -20,6 +20,11 @@ public:
 	/// <returns></returns>
 	UnitId getId() const;
 
+	/// <summary>
+	/// Начать движение в указанную точку
+	/// </summary>
+	void marchStart(Vec2 targetPos);
+
 protected:
 	UnitId mId = 0;
 };

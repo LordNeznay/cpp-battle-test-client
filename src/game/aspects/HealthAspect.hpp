@@ -13,6 +13,6 @@ namespace aspect
 		/// <summary>
 		/// Счетчик жизней
 		/// </summary>
-		bool mHealthPoints = 0;
+		int mHealthPoints = 0;
 	};
 }

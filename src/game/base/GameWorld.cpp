@@ -96,7 +96,11 @@ void GameWorld::spawnHunter(const sw::io::SpawnHunter& cmd)
 
 void GameWorld::marchStart(const sw::io::March& cmd)
 {
-	// TODO
+
+	if (auto unit = mUnitPool->getUnit(cmd.unitId))
+	{
+		unit->marchStart(Vec2{(int)cmd.targetX, (int)cmd.targetY});
+	}
 }
 
 void GameWorld::printState()
@@ -104,7 +108,7 @@ void GameWorld::printState()
 	std::cout << std::format("Step: {}\n", mSimulationStep);
 	std::cout << mMap->makeDebugView();
 
-	for (auto& unit : *mUnitPool)
+	for (auto& [_, unit] : *mUnitPool)
 	{
 		bool isDead = false;
 		std::optional<int> hp;
