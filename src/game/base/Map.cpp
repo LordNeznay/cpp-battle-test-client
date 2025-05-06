@@ -29,7 +29,7 @@ int Map::getHeight() const
 std::vector<Vec2> Map::findPath(
 	const Vec2& from, const Vec2& to, const std::function<bool(const MapCell&)>& isCellFreeCb) const
 {
-	// Реализация поиска в глубину
+	// Реализация поиска в ширину
 	std::vector<Vec2> path;
 
 	if (!isValidPos(from) || !isValidPos(to))
@@ -37,17 +37,17 @@ std::vector<Vec2> Map::findPath(
 		return path;
 	}
 
-	std::stack<Vec2> stack;
+	std::queue<Vec2> queue;
 	std::unordered_map<int, int> cameFrom;
 	std::vector<bool> visited(mWidth * mHeight, false);
 
-	stack.push(from);
+	queue.push(from);
 	visited[posToIdx(from)] = true;
 
-	while (!stack.empty())
+	while (!queue.empty())
 	{
-		Vec2 current = stack.top();
-		stack.pop();
+		Vec2 current = queue.front();
+		queue.pop();
 
 		if (current.x == to.x && current.y == to.y)
 		{
@@ -73,7 +73,7 @@ std::vector<Vec2> Map::findPath(
 				continue;
 			}
 
-			stack.push(next);
+			queue.push(next);
 			visited[nextIdx] = true;
 			cameFrom[nextIdx] = posToIdx(current);
 		}
@@ -246,6 +246,8 @@ void Map::moveUnit(Unit& unit, const Vec2 pos) {
 	{
 		data->mPos = pos;
 	}
+
+	it->second = pos;
 }
 
 std::string Map::makeDebugView() const
@@ -253,23 +255,38 @@ std::string Map::makeDebugView() const
 	std::stringstream ss;
 
 	const auto AddLine = [&]() {
-		for (int x = 0; x < mWidth; ++x)
+		for (int x = 0; x < mWidth + 1; ++x)
 		{
-			ss << (x == 0 ? "+---+" : "---+");
+			ss << (x == 0 ? "+---++" : "---+");
 		}
 		ss << "\n";
 	};
 
+	AddLine();
+	for (int x = 0; x < mWidth + 1; ++x)
+	{
+		if (x == 0)
+		{
+			ss << "|";
+		}
+
+		ss << std::format("{:^3}|", x - 1);
+
+		if (x == 0)
+		{
+			ss << "|";
+		}
+	}
+	ss << "\n";
+	AddLine();
+	AddLine();
+
 	for (int y = 0; y < mHeight; ++y)
 	{
-		if (y == 0)
-			AddLine();
+		ss << std::format("|{:^3}||", y);
 
 		for (int x = 0; x < mWidth; ++x)
 		{
-			if (x == 0)
-				ss << "|";
-
 			auto unitId = [&]() -> std::optional<UnitId>
 			{
 				if (auto cell = getCell(Vec2{x, y}))

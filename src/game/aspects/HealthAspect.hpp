@@ -10,6 +10,10 @@ namespace aspect
 	class Health : public Aspect
 	{
 	public:
+		Health(int value) :
+			mHealthPoints(value)
+		{}
+
 		/// <summary>
 		/// Счетчик жизней
 		/// </summary>

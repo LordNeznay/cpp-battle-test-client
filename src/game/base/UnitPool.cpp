@@ -1,6 +1,7 @@
 #include "UnitPool.hpp"
 
 #include "game/base/GameWorld.hpp"
+#include "game/base/Map.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
 
 #include "IO/System/EventLog.hpp"
@@ -44,6 +45,11 @@ void UnitPool::beforeUnitErase(GameWorld& world, Unit& unit) {
 	if (auto logger = world.getEventLogger())
 	{
 		logger->log(world.getSimulationStep(), sw::io::UnitDied{unit.getId()});
+	}
+
+	if (auto map = world.getGameMap())
+	{
+		map->removeUnit(unit);
 	}
 }
 

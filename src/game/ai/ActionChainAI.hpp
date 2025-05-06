@@ -41,6 +41,7 @@ namespace ai
 		/// </summary>
 		ActionChainAI& addAction(std::unique_ptr<Action> action) {
 			mActions.emplace_back(std::move(action));
+			return *this;
 		}
 
 		void Think(Unit& unit, GameWorld& world) override;

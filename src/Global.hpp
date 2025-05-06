@@ -13,6 +13,7 @@
 #include <utility>
 #include <functional>
 #include <format>
+#include <sstream>
 
 #include "game/base/Vec2.hpp"
 

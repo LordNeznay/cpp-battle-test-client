@@ -5,7 +5,9 @@
 #include "game/base/RandomManager.hpp"
 #include "game/unit_creators/SwordsmanCreator.hpp"
 #include "game/aspects/HealthAspect.hpp"
+#include "game/aspects/AIAspect.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
+#include "game/aspects/MovementTargetAspect.hpp"
 
 #include "IO/System/EventLog.hpp"
 #include "IO/Events/MapCreated.hpp"
@@ -65,7 +67,15 @@ sw::EventLog* GameWorld::getEventLogger()
 
 void GameWorld::step() 
 {
-	// TODO
+	mUnitPool->removeDeathUnits(*this);
+
+	for (auto& [_, unit] : *mUnitPool)
+	{
+		if (auto unitAi = unit->getAspect<aspect::AI>())
+		{
+			unitAi->Think(*unit, *this);
+		}
+	}
 }
 
 void GameWorld::simulate()
@@ -112,28 +122,32 @@ void GameWorld::marchStart(const sw::io::March& cmd)
 
 void GameWorld::printState()
 {
-	std::cout << std::format("Step: {}\n", mSimulationStep);
-	std::cout << mMap->makeDebugView();
+	std::stringstream ss;
+	ss << std::format("Step: {}\n", mSimulationStep);
+	ss << mMap->makeDebugView();
 
 	for (auto& [_, unit] : *mUnitPool)
 	{
-		bool isDead = false;
-		std::optional<int> hp;
+		ss << std::format("Unit {}.", unit->getId());
 
 		if (auto data = unit->getAspect<aspect::Health>())
 		{
-			hp = data->mHealthPoints;
+			ss << std::format(" HP {}.", data->mHealthPoints);
 		}
 
 		if (auto data = unit->getAspect<aspect::DeathStatus>())
 		{
-			isDead = data->mIsDead;
+			ss << std::format(" IsDead {}.", data->mIsDead);
 		}
 
-		std::cout << std::format("Unit {}. HP {}. IsDead {}", unit->getId(), hp.value_or(0), isDead) << std::endl;
+		if (auto data = unit->getAspect<aspect::MovementTarget>())
+		{
+			ss << std::format(" Move to {}x{}", data->mTargetPos.x, data->mTargetPos.y);
+		}
+		ss << std::endl;
 	}
 
-	std::cout << std::endl;
+	std::cout << ss.str() << std::endl;
 }
 
 RandomManager* GameWorld::getRandomManager()

@@ -1,5 +1,6 @@
 #include "Unit.hpp"
 #include "game/aspects/MovementTargetAspect.hpp"
+#include "game/aspects/DeathStatusAspect.hpp"
 
 UnitId Unit::getId() const
 {
@@ -14,4 +15,13 @@ void Unit::marchStart(Vec2 targetPos) {
 	}
 
 	data->mTargetPos = targetPos;
+}
+
+bool Unit::isAlive() const {
+	if (auto death = getAspect<aspect::DeathStatus>())
+	{
+		return not death->mIsDead;
+	}
+
+	return true;
 }

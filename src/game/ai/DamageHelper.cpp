@@ -40,12 +40,7 @@ std::vector<Unit*> DamageHelper::getUnitsInRadius(Map& map,
 }
 
 bool DamageHelper::Filters::IsAlive(const Unit& unit) {
-	if (auto death = unit.getAspect<aspect::DeathStatus>())
-	{
-		return not death->mIsDead;
-	}
-
-	return true;
+	return unit.isAlive();
 }
 
 bool DamageHelper::Filters::IsAttackable(const Unit& unit)

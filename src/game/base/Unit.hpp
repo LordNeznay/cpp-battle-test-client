@@ -25,6 +25,12 @@ public:
 	/// </summary>
 	void marchStart(Vec2 targetPos);
 
+	/// <summary>
+	/// Является ли юнит живым
+	/// </summary>
+	/// <returns></returns>
+	bool isAlive() const;
+
 protected:
 	UnitId mId = 0;
 };

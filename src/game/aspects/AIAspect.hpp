@@ -44,13 +44,7 @@ namespace aspect
 		/// </summary>
 		/// <param name="unit">Юнит, для которого выполняется логика</param>
 		/// <param name="world">Игровой мир</param>
-		void Think(Unit& unit, GameWorld& world)
-		{
-			if (mImpl)
-			{
-				mImpl->Think(unit, world);
-			}
-		}
+		void Think(Unit& unit, GameWorld& world);
 
 	protected:
 		std::unique_ptr<BaseAI> mImpl;

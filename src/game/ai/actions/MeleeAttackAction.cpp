@@ -22,6 +22,9 @@ bool ai::action::MeleeAttack::exec(Unit& unit, GameWorld& world)
 
 	auto targets = DamageHelper::getUnitsInRadius(
 		*map, position->getPosition(), attackRadius->mValue, DamageHelper::Filters::IsAttackable);
+	targets.erase(
+		std::remove_if(targets.begin(), targets.end(), [&unit](const auto& u) { return &unit == u; }), targets.end());
+
 	if (targets.empty())
 	{
 		return false;
