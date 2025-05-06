@@ -48,4 +48,6 @@ bool Unit::canActOnNextStep(const GameWorld& world) const {
 	{
 		return unitAI->canAct(*this, world);
 	}
+
+	return false;
 }
