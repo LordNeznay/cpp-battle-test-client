@@ -81,20 +81,29 @@ void GameWorld::step()
 
 void GameWorld::simulate()
 {
-	constexpr int sMaxSteps = 10; // TODO увеличить
-
-	while (not isSimulationFinished() && mSimulationStep < sMaxSteps)
+	while (not isSimulationFinished() && mSimulationStep < sMaxSimulationSteps)
 	{
 		mSimulationStep += 1;
 		step();
 
-		printState(); // TODO: remove
+		printState();
 	}
 }
 
 bool GameWorld::isSimulationFinished() const
 {
-	return false; // TODO
+	bool isHaveNoUnits = mUnitPool->getUnitCount() == 0;
+	bool isAnyHasTarget = std::any_of(
+		mUnitPool->begin(),
+		mUnitPool->end(),
+		[](const auto& pair) { 
+			auto& unit = pair.second;
+			auto target = unit->getAspect<aspect::MovementTarget>();
+
+			return target != nullptr;
+		});
+
+	return isHaveNoUnits || not isAnyHasTarget;
 }
 
 int GameWorld::getSimulationStep() const 

@@ -72,3 +72,8 @@ const Unit* UnitPool::getUnit(UnitId unitId) const
 
 	return nullptr;
 }
+
+int UnitPool::getUnitCount() const
+{
+	return mStorage.size();
+}

@@ -32,6 +32,12 @@ public:
 	auto end() { return mStorage.end();	}
 	auto end() const { return mStorage.end();	}
 
+	/// <summary>
+	/// Получить количество юнитов в пуле
+	/// </summary>
+	/// <returns></returns>
+	int getUnitCount() const;
+
 protected:
 	void beforeUnitErase(GameWorld& world, Unit& unit);
 
