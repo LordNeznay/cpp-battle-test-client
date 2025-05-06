@@ -148,7 +148,10 @@ void GameWorld::printState()
 		ss << std::endl;
 	}
 
-	std::cout << ss.str() << std::endl;
+	if (sEnableDebugLogs)
+	{
+		std::cout << ss.str() << std::endl;
+	}
 }
 
 RandomManager* GameWorld::getRandomManager()

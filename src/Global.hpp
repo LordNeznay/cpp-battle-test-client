@@ -18,3 +18,5 @@
 #include "game/base/Vec2.hpp"
 
 using UnitId = uint32_t;
+
+constexpr bool sEnableDebugLogs = false;
