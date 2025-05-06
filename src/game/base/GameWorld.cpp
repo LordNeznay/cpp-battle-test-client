@@ -121,7 +121,6 @@ void GameWorld::spawnHunter(const sw::io::SpawnHunter& cmd)
 
 void GameWorld::marchStart(const sw::io::March& cmd)
 {
-
 	if (auto unit = mUnitPool->getUnit(cmd.unitId))
 	{
 		unit->marchStart(*this, Vec2{(int)cmd.targetX, (int)cmd.targetY});

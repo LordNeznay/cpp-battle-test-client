@@ -20,6 +20,6 @@
 using UnitId = uint32_t;
 
 // Вкл-выкл дебажные логи с отображением карты
-constexpr bool sEnableDebugLogs = true;
+constexpr bool sEnableDebugLogs = false;
 // Лимит на шаги симуляции - защита от зацикливания
 constexpr int sMaxSimulationSteps = 100;
