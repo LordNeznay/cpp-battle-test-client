@@ -1,12 +1,15 @@
 #include "Map.hpp"
-#include "game/base/Unit.hpp"
 #include <stack>
+#include <sstream>
+
+#include "game/base/Unit.hpp"
+#include "game/aspects/PositionAspect.hpp"
 
 Map::Map(int w, int h) :
 	mWidth(w),
 	mHeight(h)
 {
-	mMapCells.resize(posToIdx(Vec2{mWidth - 1, mHeight - 1}));
+	mMapCells.resize(mWidth * mHeight);
 }
 
 int Map::getWidth() const
@@ -113,6 +116,16 @@ MapCell* Map::getCell(const Vec2& pos)
 	return &mMapCells[posToIdx(pos)];
 }
 
+const MapCell* Map::getCell(const Vec2& pos) const
+{
+	if (not isValidPos(pos))
+	{
+		return nullptr;
+	}
+
+	return &mMapCells[posToIdx(pos)];
+}
+
 bool Map::isValidPos(const Vec2& pos) const
 {
 	return pos.x >= 0 && pos.x < mWidth && pos.y >= 0 && pos.y < mHeight;
@@ -132,6 +145,7 @@ void Map::addUnit(Unit& unit, const Vec2& pos) {
 
 	mUnitToPosition[&unit] = pos;
 	cell->unitList.push_back(&unit);
+	unit.addAspect(aspect::Position(pos));
 }
 
 void Map::removeUnit(Unit& unit) {
@@ -150,6 +164,7 @@ void Map::removeUnit(Unit& unit) {
 	}
 
 	mUnitToPosition.erase(it);
+	unit.removeAspect<aspect::Position>();
 }
 
 void Map::moveUnit(Unit& unit, const Vec2 pos) {
@@ -179,4 +194,62 @@ void Map::moveUnit(Unit& unit, const Vec2 pos) {
 		auto& newList = newCell->unitList;
 		newList.splice(newList.end(), oldList, listIt);
 	}
+
+	if (auto data = unit.getAspect<aspect::Position>())
+	{
+		data->mPos = pos;
+	}
+}
+
+std::string Map::makeDebugView() const
+{
+	std::stringstream ss;
+
+	const auto AddLine = [&]() {
+		for (int x = 0; x < mWidth; ++x)
+		{
+			ss << (x == 0 ? "+---+" : "---+");
+		}
+		ss << "\n";
+	};
+
+	for (int y = 0; y < mHeight; ++y)
+	{
+		if (y == 0)
+			AddLine();
+
+		for (int x = 0; x < mWidth; ++x)
+		{
+			if (x == 0)
+				ss << "|";
+
+			auto unitId = [&]() -> std::optional<UnitId>
+			{
+				if (auto cell = getCell(Vec2{x, y}))
+				{
+					if (not cell->unitList.empty())
+					{
+						return cell->unitList.front()->getId();
+					}
+				}
+				return std::nullopt;
+			}();
+
+			if (unitId)
+			{
+				ss << std::format("{:^3}", *unitId);
+			}
+			else
+			{
+				ss << "   ";
+			}
+
+			ss << "|";
+		}
+		ss << "\n";
+
+		AddLine();
+	}
+
+	return ss.str();
 }

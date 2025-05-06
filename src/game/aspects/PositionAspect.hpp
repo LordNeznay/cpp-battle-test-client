@@ -5,17 +5,27 @@
 namespace aspect
 {
 	/// <summary>
-	/// Позиция юнита в данный момент
+	/// Позиция юнита в данный момент. Создается и управляется игровой картой
 	/// </summary>
 	class Position : public Aspect
 	{
+		friend class Map;
+
 	public:
-		Position(int x, int y) :
-				mX(x),
-				mY(y)
+		Position(Position&&) = default;
+		Position& operator=(Position&&) = default;
+
+		Vec2 getPosition() const
+		{
+			return mPos;
+		}
+
+	protected:
+		Position(const Vec2 pos) :
+				mPos(pos)
 		{}
 
-		int mX = 0;
-		int mY = 0;
+	protected:
+		Vec2 mPos;
 	};
 }

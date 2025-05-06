@@ -15,6 +15,8 @@ namespace sw::io {
 
 class GameWorld
 {
+	friend class SwordsmanCreator;
+
 public:
 	GameWorld();
 	~GameWorld();

@@ -54,6 +54,12 @@ public:
 	/// </summary>
 	void moveUnit(Unit& unit, const Vec2 pos);
 
+	/// <summary>
+	/// Дебажная визуализация
+	/// </summary>
+	/// <returns></returns>
+	std::string makeDebugView() const;
+
 protected:
 	/// <summary>
 	/// Ищем клетку по позиции
@@ -61,6 +67,7 @@ protected:
 	/// <param name="pos"></param>
 	/// <returns></returns>
 	MapCell* getCell(const Vec2& pos);
+	const MapCell* getCell(const Vec2& pos) const;
 
 	/// <summary>
 	/// Конвертируем позицию во внутренний индекс

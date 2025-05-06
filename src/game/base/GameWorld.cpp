@@ -12,12 +12,16 @@
 #include "IO/Commands/SpawnSwordsman.hpp"
 
 
-GameWorld::GameWorld() = default;
+GameWorld::GameWorld()
+{
+	mUnitPool = std::make_unique<UnitPool>();
+}
+
 GameWorld::~GameWorld() = default;
 
 void GameWorld::setGameMap(std::unique_ptr<Map> map)
 {
-	if (not mMap)
+	if (not map)
 	{
 		throw std::runtime_error("New map is null");
 	}
@@ -57,10 +61,15 @@ void GameWorld::step()
 
 void GameWorld::simulate()
 {
-	while (not isSimulationFinished())
+	constexpr int sMaxSteps = 10; // TODO увеличить
+
+	while (not isSimulationFinished() && mSimulationStep < sMaxSteps)
 	{
 		mSimulationStep += 1;
 		step();
+
+		std::cout << std::format("Step: {}\n", mSimulationStep);
+		std::cout << mMap->makeDebugView() << std::endl; // TODO: remove
 	}
 }
 
@@ -76,8 +85,7 @@ int GameWorld::getSimulationStep() const
 
 void GameWorld::spawnSwordsman(const sw::io::SpawnSwordsman& cmd)
 {
-	auto& unit = mUnitPool->spawnUnit(cmd.unitId);
-
+	SwordsmanCreator::create(*this, cmd);
 }
 
 void GameWorld::spawnHunter(const sw::io::SpawnHunter& cmd)

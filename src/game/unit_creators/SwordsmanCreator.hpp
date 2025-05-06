@@ -1,13 +1,14 @@
 #pragma once
 
-class Unit;
+class GameWorld;
+
 namespace sw::io
 {
-	class SpawnSwordsman;
+	struct SpawnSwordsman;
 }
 
 class SwordsmanCreator
 {
 public:
-	static void create(Unit& unit, const sw::io::SpawnSwordsman& cmd);
+	static void create(GameWorld& world, const sw::io::SpawnSwordsman& cmd);
 };

@@ -48,14 +48,14 @@ std::unique_ptr<GameWorld> createWorldFromConfig(const std::string& filepath)
 		sw::printDebug(std::cout, command); 
 		world->spawnSwordsman(command);
 	});
-	//parser.add<sw::io::SpawnHunter>([&world](auto command) { 
-	//	sw::printDebug(std::cout, command); 
-	//	world->spawnHunter(command);
-	//});
-	//parser.add<sw::io::March>([&world](auto command) { 
-	//	sw::printDebug(std::cout, command); 
-	//	world->marchStart(command);
-	//});
+	parser.add<sw::io::SpawnHunter>([&world](auto command) { 
+		sw::printDebug(std::cout, command); 
+		world->spawnHunter(command);
+	});
+	parser.add<sw::io::March>([&world](auto command) { 
+		sw::printDebug(std::cout, command); 
+		world->marchStart(command);
+	});
 
 	std::cout << "Commands:\n";
 	parser.parse(file);
@@ -77,6 +77,9 @@ int main(int argc, char** argv)
 	{
 		throw std::runtime_error("Error: Game world was not created");
 	}
+
+	std::cout << world->getGameMap()->makeDebugView() << std::endl;	 // TODO: remove
+	world->simulate();
 
 	//std::cout << "\n\nEvents:\n";
 
