@@ -8,5 +8,8 @@
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
+#include <typeindex>
+#include <type_traits>
+#include <utility>
 
-using UnitId = uint64_t;
+using UnitId = uint32_t;
