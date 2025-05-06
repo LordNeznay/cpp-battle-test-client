@@ -4,7 +4,7 @@
 
 class GameWorld;
 
-// Пул юнитов
+// РџСѓР» СЋРЅРёС‚РѕРІ
 class UnitPool
 {
 	using Storage = std::vector<std::unique_ptr<Unit>>;
@@ -12,13 +12,13 @@ class UnitPool
 
 public:
 	/// <summary>
-	/// Спавним юнита с таким айдишников
+	/// РЎРїР°РІРЅРёРј СЋРЅРёС‚Р° СЃ С‚Р°РєРёРј Р°Р№РґРёС€РЅРёРєРѕРІ
 	/// </summary>
 	/// <param name="unitId"></param>
 	Unit& spawnUnit(UnitId unitId);
 
 	/// <summary>
-	/// Удаляем мертвых юнитов
+	/// РЈРґР°Р»СЏРµРј РјРµСЂС‚РІС‹С… СЋРЅРёС‚РѕРІ
 	/// </summary>
 	void removeDeathUnits(GameWorld& world);
 

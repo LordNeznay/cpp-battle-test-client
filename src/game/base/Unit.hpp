@@ -15,7 +15,7 @@ public:
 	Unit& operator=(const Unit&) = delete;
 
 	/// <summary>
-	/// Получить айдишник юнита
+	/// РџРѕР»СѓС‡РёС‚СЊ Р°Р№РґРёС€РЅРёРє СЋРЅРёС‚Р°
 	/// </summary>
 	/// <returns></returns>
 	UnitId getId() const;

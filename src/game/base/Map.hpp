@@ -6,20 +6,20 @@ public:
 	Map(int w, int h);
 
 	/// <summary>
-	/// Получить ширину карты
+	/// РџРѕР»СѓС‡РёС‚СЊ С€РёСЂРёРЅСѓ РєР°СЂС‚С‹
 	/// </summary>
 	/// <returns></returns>
 	int getWidth() const;
 	
 	/// <summary>
-	/// Получить высоту карты
+	/// РџРѕР»СѓС‡РёС‚СЊ РІС‹СЃРѕС‚Сѓ РєР°СЂС‚С‹
 	/// </summary>
 	/// <returns></returns>
 	int getHeight() const;
 
 protected:
-	// Ширина карты
+	// РЁРёСЂРёРЅР° РєР°СЂС‚С‹
 	int mWidth = 0;
-	// Высота карты
+	// Р’С‹СЃРѕС‚Р° РєР°СЂС‚С‹
 	int mHeight = 0;
 };

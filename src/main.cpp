@@ -19,10 +19,10 @@
 #include "game/base/Map.hpp"
 
 /// <summary>
-/// Создаем игровой мир по конфигу
+/// РЎРѕР·РґР°РµРј РёРіСЂРѕРІРѕР№ РјРёСЂ РїРѕ РєРѕРЅС„РёРіСѓ
 /// </summary>
-/// <param name="filepath">Путь к файлу команд конфига</param>
-/// <returns>Игровой мир</returns>
+/// <param name="filepath">РџСѓС‚СЊ Рє С„Р°Р№Р»Сѓ РєРѕРјР°РЅРґ РєРѕРЅС„РёРіР°</param>
+/// <returns>РРіСЂРѕРІРѕР№ РјРёСЂ</returns>
 std::unique_ptr<GameWorld> createWorldFromConfig(const std::string& filepath)
 {
 	std::ifstream file(filepath);

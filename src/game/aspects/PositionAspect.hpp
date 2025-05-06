@@ -5,7 +5,7 @@
 namespace aspect
 {
 	/// <summary>
-	/// Позиция юнита в данный момент
+	/// РџРѕР·РёС†РёСЏ СЋРЅРёС‚Р° РІ РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚
 	/// </summary>
 	class Position : public Aspect
 	{

@@ -20,82 +20,83 @@ public:
 	~GameWorld();
 
 	/// <summary>
-	/// Устанавливаем игровую карту
+	/// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РёРіСЂРѕРІСѓСЋ РєР°СЂС‚Сѓ
 	/// </summary>
 	/// <param name="map"></param>
 	void setGameMap(std::unique_ptr<Map> map);
 
 	/// <summary>
-	/// Получить игровую карту, если она есть
+	/// РџРѕР»СѓС‡РёС‚СЊ РёРіСЂРѕРІСѓСЋ РєР°СЂС‚Сѓ, РµСЃР»Рё РѕРЅР° РµСЃС‚СЊ
 	/// </summary>
 	const Map* getGameMap() const;
 
 	/// <summary>
-	/// Устанавливаем логгер игровых событий
+	/// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р»РѕРіРіРµСЂ РёРіСЂРѕРІС‹С… СЃРѕР±С‹С‚РёР№
 	/// </summary>
 	/// <param name="logger"></param>
 	void setEventLogger(std::unique_ptr<sw::EventLog> logger);
 
 	/// <summary>
-	/// Получить логгер для игровых событий
+	/// РџРѕР»СѓС‡РёС‚СЊ Р»РѕРіРіРµСЂ РґР»СЏ РёРіСЂРѕРІС‹С… СЃРѕР±С‹С‚РёР№
 	/// </summary>
 	sw::EventLog* getEventLogger();
 
 	/// <summary>
-	/// Выполнить шаг симуляции игрового мира
+	/// Р’С‹РїРѕР»РЅРёС‚СЊ С€Р°Рі СЃРёРјСѓР»СЏС†РёРё РёРіСЂРѕРІРѕРіРѕ РјРёСЂР°
 	/// </summary>
 	void step();
 
 	/// <summary>
-	/// Симулировать игровой мир до конца
+	/// РЎРёРјСѓР»РёСЂРѕРІР°С‚СЊ РёРіСЂРѕРІРѕР№ РјРёСЂ РґРѕ РєРѕРЅС†Р°
 	/// </summary>
 	void simulate();
 
 	/// <summary>
-	/// Завершена симуляция или нет
+	/// Р—Р°РІРµСЂС€РµРЅР° СЃРёРјСѓР»СЏС†РёСЏ РёР»Рё РЅРµС‚
 	/// </summary>
 	/// <returns></returns>
 	bool isSimulationFinished() const;
 
 	/// <summary>
-	/// Получить номер шага симуляции
+	/// РџРѕР»СѓС‡РёС‚СЊ РЅРѕРјРµСЂ С€Р°РіР° СЃРёРјСѓР»СЏС†РёРё
 	/// </summary>
 	/// <returns></returns>
 	int getSimulationStep() const;
 
 	/// <summary>
-	/// Спавним мечника
+	/// РЎРїР°РІРЅРёРј РјРµС‡РЅРёРєР°
 	/// </summary>
-	/// <param name="cmd">Команда с настройками для спавна</param>
+	/// <param name="cmd">РљРѕРјР°РЅРґР° СЃ РЅР°СЃС‚СЂРѕР№РєР°РјРё РґР»СЏ СЃРїР°РІРЅР°</param>
 	void spawnSwordsman(const sw::io::SpawnSwordsman& cmd);
 
 	/// <summary>
-	/// Спавним охотника
+	/// РЎРїР°РІРЅРёРј РѕС…РѕС‚РЅРёРєР°
 	/// </summary>
-	/// <param name="cmd">Команда с настройками для спавна</param>
+	/// <param name="cmd">РљРѕРјР°РЅРґР° СЃ РЅР°СЃС‚СЂРѕР№РєР°РјРё РґР»СЏ СЃРїР°РІРЅР°</param>
 	void spawnHunter(const sw::io::SpawnHunter& cmd);
 
 	/// <summary>
-	/// Планируем перемещение юнита
+	/// РџР»Р°РЅРёСЂСѓРµРј РїРµСЂРµРјРµС‰РµРЅРёРµ СЋРЅРёС‚Р°
 	/// </summary>
-	/// <param name="cmd">Настройки перемещения</param>
+	/// <param name="cmd">РќР°СЃС‚СЂРѕР№РєРё РїРµСЂРµРјРµС‰РµРЅРёСЏ</param>
 	void marchStart(const sw::io::March& cmd);
 
 protected:
 	/// <summary>
-	/// Карта игрового мира
+	/// РљР°СЂС‚Р° РёРіСЂРѕРІРѕРіРѕ РјРёСЂР°
 	/// </summary>
 	std::unique_ptr<Map> mMap;
 	/// <summary>
-	/// Пул юнитов
+	/// РџСѓР» СЋРЅРёС‚РѕРІ
 	/// </summary>
 	std::unique_ptr<UnitPool> mUnitPool;
 	/// <summary>
-	/// Логгер для игровых событий
+	/// Р›РѕРіРіРµСЂ РґР»СЏ РёРіСЂРѕРІС‹С… СЃРѕР±С‹С‚РёР№
 	/// </summary>
 	std::unique_ptr<sw::EventLog> mLogger;
 	/// <summary>
-	/// Номер шага симуляции
+	/// РќРѕРјРµСЂ С€Р°РіР° СЃРёРјСѓР»СЏС†РёРё
 	/// </summary>
 	int mSimulationStep = 0;
 };
+

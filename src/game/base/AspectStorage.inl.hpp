@@ -7,7 +7,7 @@ inline void AspectStorage::addAspect(T&& aspect)
 	bool ok = mAspects.emplace(std::type_index(typeid(T)), std::make_unique<T>(std::forward<T>(aspect))).second;
 	if (not ok)
 	{
-		// Пока ошибку проигнорим, но когда-то в будущем надо будет обрабатывать
+		// РџРѕРєР° РѕС€РёР±РєСѓ РїСЂРѕРёРіРЅРѕСЂРёРј, РЅРѕ РєРѕРіРґР°-С‚Рѕ РІ Р±СѓРґСѓС‰РµРј РЅР°РґРѕ Р±СѓРґРµС‚ РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ
 	}
 }
 

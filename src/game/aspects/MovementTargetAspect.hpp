@@ -5,7 +5,7 @@
 namespace aspect
 {
 	/// <summary>
-	/// Точка, в которую движется юнит
+	/// РўРѕС‡РєР°, РІ РєРѕС‚РѕСЂСѓСЋ РґРІРёР¶РµС‚СЃСЏ СЋРЅРёС‚
 	/// </summary>
 	class MovementTarget : public Aspect
 	{

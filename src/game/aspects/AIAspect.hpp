@@ -6,7 +6,7 @@ class GameWorld;
 class Unit;
 
 /// <summary>
-/// Интерфейс базового ИИ, устанавливается в aspect::AI
+/// РРЅС‚РµСЂС„РµР№СЃ Р±Р°Р·РѕРІРѕРіРѕ РР, СѓСЃС‚Р°РЅР°РІР»РёРІР°РµС‚СЃСЏ РІ aspect::AI
 /// </summary>
 class BaseAI
 {
@@ -14,7 +14,7 @@ public:
 	virtual ~BaseAI() = default;
 
 	/// <summary>
-	/// Выполняем логику ИИ для юнита
+	/// Р’С‹РїРѕР»РЅСЏРµРј Р»РѕРіРёРєСѓ РР РґР»СЏ СЋРЅРёС‚Р°
 	/// </summary>
 	/// <param name="world"></param>
 	virtual void Think(Unit& unit, GameWorld& world) = 0;
@@ -23,7 +23,7 @@ public:
 namespace aspect
 {
 	/// <summary>
-	/// Аспект ИИ юнита
+	/// РђСЃРїРµРєС‚ РР СЋРЅРёС‚Р°
 	/// </summary>
 	class AI : public Aspect
 	{
@@ -33,10 +33,10 @@ namespace aspect
 		{}
 
 		/// <summary>
-		/// Выполняем логику ИИ для юнита
+		/// Р’С‹РїРѕР»РЅСЏРµРј Р»РѕРіРёРєСѓ РР РґР»СЏ СЋРЅРёС‚Р°
 		/// </summary>
-		/// <param name="unit">Юнит, для которого выполняется логика</param>
-		/// <param name="world">Игровой мир</param>
+		/// <param name="unit">Р®РЅРёС‚, РґР»СЏ РєРѕС‚РѕСЂРѕРіРѕ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ Р»РѕРіРёРєР°</param>
+		/// <param name="world">РРіСЂРѕРІРѕР№ РјРёСЂ</param>
 		void Think(Unit& unit, GameWorld& world)
 		{
 			if (mImpl)

@@ -5,13 +5,13 @@
 namespace aspect
 {
 	/// <summary>
-	/// Хранилище для маркера смерти
+	/// РҐСЂР°РЅРёР»РёС‰Рµ РґР»СЏ РјР°СЂРєРµСЂР° СЃРјРµСЂС‚Рё
 	/// </summary>
 	class DeathStatus : public Aspect
 	{
 	public:
 		/// <summary>
-		/// Мерт юнит или нет
+		/// РњРµСЂС‚ СЋРЅРёС‚ РёР»Рё РЅРµС‚
 		/// </summary>
 		bool mIsDead = false;
 	};

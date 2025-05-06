@@ -5,7 +5,7 @@
 namespace ai
 {
 	/// <summary>
-	/// Какое-то действие ИИ
+	/// РљР°РєРѕРµ-С‚Рѕ РґРµР№СЃС‚РІРёРµ РР
 	/// </summary>
 	class Action
 	{
@@ -13,16 +13,16 @@ namespace ai
 		virtual ~Action() = default;
 
 		/// <summary>
-		/// Выполняем действие
+		/// Р’С‹РїРѕР»РЅСЏРµРј РґРµР№СЃС‚РІРёРµ
 		/// </summary>
-		/// <param name="unit">Для этого юнита</param>
-		/// <param name="world">В этом мире</param>
-		/// <returns>Флаг успешности</returns>
+		/// <param name="unit">Р”Р»СЏ СЌС‚РѕРіРѕ СЋРЅРёС‚Р°</param>
+		/// <param name="world">Р’ СЌС‚РѕРј РјРёСЂРµ</param>
+		/// <returns>Р¤Р»Р°Рі СѓСЃРїРµС€РЅРѕСЃС‚Рё</returns>
 		virtual bool exec(Unit& unit, GameWorld& world) = 0;
 	};
 
 	/// <summary>
-	/// ИИ на основе цепочки действий, где выполняем все действия по цепочке до первого успешного
+	/// РР РЅР° РѕСЃРЅРѕРІРµ С†РµРїРѕС‡РєРё РґРµР№СЃС‚РІРёР№, РіРґРµ РІС‹РїРѕР»РЅСЏРµРј РІСЃРµ РґРµР№СЃС‚РІРёСЏ РїРѕ С†РµРїРѕС‡РєРµ РґРѕ РїРµСЂРІРѕРіРѕ СѓСЃРїРµС€РЅРѕРіРѕ
 	/// </summary>
 	class ActionChainAI : public BaseAI
 	{
@@ -35,7 +35,7 @@ namespace ai
 		ActionChainAI& operator=(const ActionChainAI&) = delete;
 
 		/// <summary>
-		/// Добавляем действие в цепочку
+		/// Р”РѕР±Р°РІР»СЏРµРј РґРµР№СЃС‚РІРёРµ РІ С†РµРїРѕС‡РєСѓ
 		/// </summary>
 		ActionChainAI& addAction(std::unique_ptr<Action> action) {
 			mActions.emplace_back(std::move(action));
@@ -45,7 +45,7 @@ namespace ai
 
 	protected:
 		/// <summary>
-		/// Список действий
+		/// РЎРїРёСЃРѕРє РґРµР№СЃС‚РІРёР№
 		/// </summary>
 		std::vector<std::unique_ptr<Action>> mActions;
 	};
