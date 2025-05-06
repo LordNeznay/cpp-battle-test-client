@@ -17,5 +17,5 @@ if(MSVC)
 endif()
 
 add_executable(sw_battle_test ${SOURCES})
-
+target_precompile_headers(sw_battle_test PRIVATE src/Global.hpp)
 target_include_directories(sw_battle_test PUBLIC src/)
