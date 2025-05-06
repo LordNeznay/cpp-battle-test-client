@@ -2,6 +2,7 @@
 
 class Unit;
 class Map;
+class GameWorld;
 
 class DamageHelper
 {
@@ -9,9 +10,10 @@ public:
 	/// <summary>
 	/// Применяем указанный урон на юнита
 	/// </summary>
-	/// <param name="unit"></param>
+	/// <param name="unitFrom">Атакующий юнит</param>
+	/// <param name="unitTo">Атакуемый юнит</param>
 	/// <param name="value"></param>
-	static void applyDamageTo(Unit& unit, int value);
+	static void applyDamage(GameWorld& world, const Unit& unitFrom, Unit& unitTo, int value);
 
 	/// <summary>
 	/// Собрать список юнитов в определенном радиусе от указанной точки, которые удовлетворяют условию

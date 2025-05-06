@@ -1,20 +1,29 @@
 #include "DamageHelper.hpp"
 #include "game/base/Unit.hpp"
 #include "game/base/Map.hpp"
+#include "game/base/GameWorld.hpp"
 #include "game/aspects/HealthAspect.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
 
-void DamageHelper::applyDamageTo(Unit& unit, int value)
+#include "IO/System/EventLog.hpp"
+#include "IO/Events/UnitAttacked.hpp"
+
+void DamageHelper::applyDamage(GameWorld& world, const Unit& unitFrom, Unit& unitTo, int value)
 {
-	if (auto health = unit.getAspect<aspect::Health>())
+	if (auto health = unitTo.getAspect<aspect::Health>())
 	{
 		health->mHealthPoints -= value;
 
 		if (health->mHealthPoints <= 0)
 		{
-			if (auto death = unit.getAspect<aspect::DeathStatus>())
+			if (auto death = unitTo.getAspect<aspect::DeathStatus>())
 			{
 				death->mIsDead = true;
+			}
+
+			if (auto logger = world.getEventLogger())
+			{
+				logger->log(world.getSimulationStep(), sw::io::UnitAttacked{unitFrom.getId(), unitTo.getId(), (uint32_t)value, (uint32_t)std::max(0, health->mHealthPoints) });
 			}
 		}
 	}

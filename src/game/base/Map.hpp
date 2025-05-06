@@ -1,6 +1,7 @@
 #pragma once
 
 class Unit;
+class GameWorld;
 
 class MapCell
 {
@@ -15,6 +16,11 @@ public:
 
 public:
 	Map(int w, int h);
+
+	/// <summary>
+	/// Устанавливаем мир-владельца карты
+	/// </summary>
+	void setGameWorld(GameWorld& world);
 
 	/// <summary>
 	/// Получить ширину карты
@@ -105,4 +111,8 @@ protected:
 	/// Кеш поиска позиции по юниту
 	/// </summary>
 	std::unordered_map<Unit*, Vec2> mUnitToPosition;
+	/// <summary>
+	/// Владелец карты
+	/// </summary>
+	GameWorld* mWorld = nullptr;
 };

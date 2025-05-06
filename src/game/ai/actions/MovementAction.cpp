@@ -5,6 +5,9 @@
 #include "game/aspects/PositionAspect.hpp"
 #include "game/aspects/MovementTargetAspect.hpp"
 
+#include "IO/System/EventLog.hpp"
+#include "IO/Events/MarchEnded.hpp"
+
 bool ai::action::Movement::exec(Unit& unit, GameWorld& world)
 {
 	auto map = world.getGameMap();
@@ -24,10 +27,20 @@ bool ai::action::Movement::exec(Unit& unit, GameWorld& world)
 		return false;
 	}
 
-	map->moveUnit(unit, path[0]);
-	if (targetPosition->mTargetPos == path[0])
+	auto currentPos = path[0];
+	map->moveUnit(unit, currentPos);
+	if (targetPosition->mTargetPos == currentPos)
 	{
 		unit.removeAspect<aspect::MovementTarget>();
+
+		if (auto logger = world.getEventLogger())
+		{
+			logger->log(
+				world.getSimulationStep(),
+				sw::io::MarchEnded{
+					unit.getId(),
+					(uint32_t)currentPos.x, (uint32_t)currentPos.y});
+		}
 	}
 
 	return true;

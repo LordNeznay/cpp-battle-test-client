@@ -117,7 +117,7 @@ void GameWorld::marchStart(const sw::io::March& cmd)
 
 	if (auto unit = mUnitPool->getUnit(cmd.unitId))
 	{
-		unit->marchStart(Vec2{(int)cmd.targetX, (int)cmd.targetY});
+		unit->marchStart(*this, Vec2{(int)cmd.targetX, (int)cmd.targetY});
 	}
 }
 

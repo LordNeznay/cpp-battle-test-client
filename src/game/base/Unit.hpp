@@ -2,6 +2,8 @@
 
 #include "AspectStorage.hpp"
 
+class GameWorld;
+
 class Unit : public AspectStorage
 {
 	friend class UnitPool;
@@ -23,7 +25,7 @@ public:
 	/// <summary>
 	/// Начать движение в указанную точку
 	/// </summary>
-	void marchStart(Vec2 targetPos);
+	void marchStart(GameWorld& world, Vec2 targetPos);
 
 	/// <summary>
 	/// Является ли юнит живым

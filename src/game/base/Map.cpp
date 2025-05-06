@@ -4,7 +4,11 @@
 #include <sstream>
 
 #include "game/base/Unit.hpp"
+#include "game/base/GameWorld.hpp"
 #include "game/aspects/PositionAspect.hpp"
+
+#include "IO/System/EventLog.hpp"
+#include "IO/Events/UnitMoved.hpp"
 
 // По часовой стрелке с LT
 const std::vector<Vec2> Map::sDefaultWalkDirections = {{-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
@@ -14,6 +18,10 @@ Map::Map(int w, int h) :
 	mHeight(h)
 {
 	mMapCells.resize(mWidth * mHeight);
+}
+
+void Map::setGameWorld(GameWorld& world) {
+	mWorld = &world;
 }
 
 int Map::getWidth() const
@@ -253,6 +261,14 @@ void Map::moveUnit(Unit& unit, const Vec2 pos) {
 	}
 
 	it->second = pos;
+
+	if (mWorld)
+	{
+		if (auto logger = mWorld->getEventLogger())
+		{
+			logger->log(mWorld->getSimulationStep(), sw::io::UnitMoved{unit.getId(), (uint32_t)pos.x, (uint32_t)pos.y});
+		}
+	}
 }
 
 std::string Map::makeDebugView() const

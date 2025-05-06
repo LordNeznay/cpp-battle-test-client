@@ -14,6 +14,8 @@
 #include "game/ai/actions/MeleeAttackAction.hpp"
 #include "game/ai/actions/MovementAction.hpp"
 
+#include "IO/System/EventLog.hpp"
+#include "IO/Events/UnitSpawned.hpp"
 #include "IO/Commands/SpawnSwordsman.hpp"
 
 void SwordsmanCreator::create(GameWorld& world, const sw::io::SpawnSwordsman& cmd)
@@ -31,4 +33,16 @@ void SwordsmanCreator::create(GameWorld& world, const sw::io::SpawnSwordsman& cm
 	unit.addAspect(aspect::MeleeAttackRadius{ 0, 1 });
 
 	world.mMap->addUnit(unit, Vec2{(int)cmd.x, (int)cmd.y});
+
+	if (auto logger = world.getEventLogger())
+	{
+		logger->log(
+			world.getSimulationStep(),
+			sw::io::UnitSpawned{
+				unit.getId(),
+				"Swordsman",
+				cmd.x,
+				cmd.y
+			});
+	}
 }

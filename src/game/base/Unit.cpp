@@ -1,13 +1,18 @@
 #include "Unit.hpp"
+#include "game/base/GameWorld.hpp"
 #include "game/aspects/MovementTargetAspect.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
+#include "game/aspects/PositionAspect.hpp"
+
+#include "IO/System/EventLog.hpp"
+#include "IO/Events/MarchStarted.hpp"
 
 UnitId Unit::getId() const
 {
 	return mId;
 }
 
-void Unit::marchStart(Vec2 targetPos) {
+void Unit::marchStart(GameWorld& world, Vec2 targetPos) {
 	auto data = getAspect<aspect::MovementTarget>();
 	if (not data)
 	{
@@ -15,6 +20,17 @@ void Unit::marchStart(Vec2 targetPos) {
 	}
 
 	data->mTargetPos = targetPos;
+
+	auto currentPosData = getAspect<aspect::Position>();
+	Vec2 currentPos = currentPosData ? currentPosData->getPosition() : Vec2();
+
+	if (auto logger = world.getEventLogger())
+	{
+		logger->log(
+			world.getSimulationStep(),
+			sw::io::MarchStarted{
+				getId(), (uint32_t)currentPos.x, (uint32_t)currentPos.y, (uint32_t)targetPos.x, (uint32_t)targetPos.y});
+	}
 }
 
 bool Unit::isAlive() const {

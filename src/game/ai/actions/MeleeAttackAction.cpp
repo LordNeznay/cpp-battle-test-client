@@ -35,6 +35,6 @@ bool ai::action::MeleeAttack::exec(Unit& unit, GameWorld& world)
 	}
 
 	int idx = randomManager->random(targets.size());
-	DamageHelper::applyDamageTo(*targets[idx], strength->mValue);
+	DamageHelper::applyDamage(world, unit, *targets[idx], strength->mValue);
 	return true;
 }

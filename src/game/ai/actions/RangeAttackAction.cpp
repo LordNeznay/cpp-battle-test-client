@@ -31,6 +31,6 @@ bool ai::action::RangeAttack::exec(Unit& unit, GameWorld& world)
 	}
 
 	int idx = randomManager->random(targets.size());
-	DamageHelper::applyDamageTo(*targets[idx], agility->mValue);
+	DamageHelper::applyDamage(world, unit, *targets[idx], agility->mValue);
 	return true;
 }

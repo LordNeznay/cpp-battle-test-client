@@ -17,6 +17,8 @@
 #include "game/ai/actions/RangeAttackAction.hpp"
 #include "game/ai/actions/MovementAction.hpp"
 
+#include "IO/System/EventLog.hpp"
+#include "IO/Events/UnitSpawned.hpp"
 #include "IO/Commands/SpawnHunter.hpp"
 
 void HunterCreator::create(GameWorld& world, const sw::io::SpawnHunter& cmd)
@@ -38,4 +40,9 @@ void HunterCreator::create(GameWorld& world, const sw::io::SpawnHunter& cmd)
 	unit.addAspect(aspect::RangeAttackRadius{ 2, (int)cmd.range });
 
 	world.mMap->addUnit(unit, Vec2{(int)cmd.x, (int)cmd.y});
+
+	if (auto logger = world.getEventLogger())
+	{
+		logger->log(world.getSimulationStep(), sw::io::UnitSpawned{unit.getId(), "Hunter", cmd.x, cmd.y});
+	}
 }
