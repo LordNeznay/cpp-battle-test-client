@@ -99,4 +99,3 @@ protected:
 	/// </summary>
 	int mSimulationStep = 0;
 };
-

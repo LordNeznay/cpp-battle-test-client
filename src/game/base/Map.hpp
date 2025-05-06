@@ -1,5 +1,13 @@
 #pragma once
 
+class Unit;
+
+class MapCell
+{
+public:
+	std::list<Unit*> unitList;
+};
+
 class Map
 {
 public:
@@ -17,9 +25,64 @@ public:
 	/// <returns></returns>
 	int getHeight() const;
 
+	/// <summary>
+	/// Построить путь. Стартовую точку считаем автоматически проходимой
+	/// </summary>
+	/// <param name="from">Откуда строим</param>
+	/// <param name="to">Куда строим</param>
+	/// <param name="isCellFreeCb">Предикат для определения свободности клетки</param>
+	/// <returns>Построенный путь без учета стартовой точки. Если нельзя построить, то пустой массив</returns>
+	std::vector<Vec2> findPath(const Vec2& from, const Vec2& to, const std::function<bool(const MapCell&)>& isCellFreeCb) const;
+
+	/// <summary>
+	/// Валидная ли эта позиция
+	/// </summary>
+	bool isValidPos(const Vec2& pos) const;
+
+	/// <summary>
+	/// Добавляем юнита на карту в указанную позицию
+	/// </summary>
+	void addUnit(Unit& unit, const Vec2& pos);
+
+	/// <summary>
+	/// Удаляем юнита с карты
+	/// </summary>
+	void removeUnit(Unit& unit);
+
+	/// <summary>
+	/// Двигаем юнита в указанную позицию
+	/// </summary>
+	void moveUnit(Unit& unit, const Vec2 pos);
+
+protected:
+	/// <summary>
+	/// Ищем клетку по позиции
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <returns></returns>
+	MapCell* getCell(const Vec2& pos);
+
+	/// <summary>
+	/// Конвертируем позицию во внутренний индекс
+	/// </summary>
+	int posToIdx(const Vec2& pos) const;
+
+	/// <summary>
+	/// Конвертируем внутренний индекс в позицию
+	/// </summary>
+	Vec2 idxToPos(int idx) const;
+
 protected:
 	// Ширина карты
 	int mWidth = 0;
 	// Высота карты
 	int mHeight = 0;
+	/// <summary>
+	/// Клетки карты
+	/// </summary>
+	std::vector<MapCell> mMapCells;
+	/// <summary>
+	/// Кеш поиска позиции по юниту
+	/// </summary>
+	std::unordered_map<Unit*, Vec2> mUnitToPosition;
 };

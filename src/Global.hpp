@@ -11,5 +11,9 @@
 #include <typeindex>
 #include <type_traits>
 #include <utility>
+#include <functional>
+#include <format>
+
+#include "game/base/Vec2.hpp"
 
 using UnitId = uint32_t;
