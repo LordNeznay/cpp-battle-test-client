@@ -11,23 +11,19 @@ bool ai::action::MeleeAttack::exec(Unit& unit, GameWorld& world)
 {
 	auto map = world.getGameMap();
 	auto randomManager = world.getRandomManager();
-	auto position = unit.getAspect<aspect::Position>();
 	auto strength = unit.getAspect<aspect::Strength>();
 	auto attackRadius = unit.getAspect<aspect::MeleeAttackRadius>();
 
-	if (not map || not randomManager || not position || not strength || not attackRadius)
+	if (not map || not randomManager || not strength || not attackRadius)
 	{
 		return false;
 	}
 
 	auto targets = DamageHelper::getUnitsInRadius(
-		*map,
-		position->getPosition(),
+		*map, unit,
 		attackRadius->mMinValue,
 		attackRadius->mMaxValue,
 		DamageHelper::Filters::IsAttackable);
-	targets.erase(
-		std::remove_if(targets.begin(), targets.end(), [&unit](const auto& u) { return &unit == u; }), targets.end());
 
 	if (targets.empty())
 	{
@@ -37,4 +33,19 @@ bool ai::action::MeleeAttack::exec(Unit& unit, GameWorld& world)
 	int idx = randomManager->random(targets.size());
 	DamageHelper::applyDamage(world, unit, *targets[idx], strength->mValue);
 	return true;
+}
+
+bool ai::action::MeleeAttack::canAct(const Unit& unit, const GameWorld& world) const
+{
+	auto map = world.getGameMap();
+	auto attackRadius = unit.getAspect<aspect::MeleeAttackRadius>();
+
+	if (not map || not attackRadius)
+	{
+		return false;
+	}
+
+	auto targets = DamageHelper::getUnitsInRadius(
+		*map, unit, attackRadius->mMinValue, attackRadius->mMaxValue, DamageHelper::Filters::IsAttackable);
+	return not targets.empty();
 }

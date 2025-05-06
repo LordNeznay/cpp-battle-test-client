@@ -8,3 +8,12 @@ void aspect::AI::Think(Unit& unit, GameWorld& world)
 		mImpl->Think(unit, world);
 	}
 }
+
+bool aspect::AI::canAct(const Unit& unit, const GameWorld& world) const {
+	if (mImpl && unit.isAlive())
+	{
+		return mImpl->canAct(unit, world);
+	}
+
+	return false;
+}

@@ -33,6 +33,12 @@ public:
 	/// <returns></returns>
 	bool isAlive() const;
 
+	/// <summary>
+	/// Может ли юнит что-то делать в следующем ходу
+	/// </summary>
+	/// <returns></returns>
+	bool canActOnNextStep(const GameWorld& world) const;
+
 protected:
 	UnitId mId = 0;
 };

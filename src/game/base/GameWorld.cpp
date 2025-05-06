@@ -93,17 +93,15 @@ void GameWorld::simulate()
 bool GameWorld::isSimulationFinished() const
 {
 	bool isHaveNoUnits = mUnitPool->getUnitCount() == 0;
-	bool isAnyHasTarget = std::any_of(
+	bool isAnyActionOnNextStep = std::any_of(
 		mUnitPool->begin(),
 		mUnitPool->end(),
-		[](const auto& pair) { 
+		[this](const auto& pair) { 
 			auto& unit = pair.second;
-			auto target = unit->getAspect<aspect::MovementTarget>();
-
-			return target != nullptr;
+			return unit->canActOnNextStep(*this);
 		});
 
-	return isHaveNoUnits || not isAnyHasTarget;
+	return isHaveNoUnits || not isAnyActionOnNextStep;
 }
 
 int GameWorld::getSimulationStep() const 

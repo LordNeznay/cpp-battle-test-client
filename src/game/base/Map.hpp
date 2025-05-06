@@ -76,8 +76,8 @@ public:
 	/// <param name="radiusMin">Минимальный радиус (включительно)</param>
 	/// <param name="radiusMax">Максимальный радиус (включительно)</param>
 	/// <param name="visitCb">Коллбек для каждой клетки</param>
-	using forEachCellInRadiusCb = const std::function<void(const Vec2&/* pos */, MapCell& /* cell */)>;
-	void forEachCellInRadius(const Vec2& center, int radiusMin, int radiusMax, forEachCellInRadiusCb& visitCb);
+	using forEachCellInRadiusCb = const std::function<void(const Vec2&/* pos */, const MapCell& /* cell */)>;
+	void forEachCellInRadius(const Vec2& center, int radiusMin, int radiusMax, forEachCellInRadiusCb& visitCb) const;
 
 protected:
 	/// <summary>

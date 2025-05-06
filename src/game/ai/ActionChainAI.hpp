@@ -26,6 +26,11 @@ namespace ai
 		/// <param name="world">В этом мире</param>
 		/// <returns>Флаг успешности</returns>
 		virtual bool exec(Unit& unit, GameWorld& world) = 0;
+
+		/// <summary>
+		/// Может ли юнит действовать в текущей ситуации
+		/// </summary>
+		virtual bool canAct(const Unit& unit, const GameWorld& world) const = 0;
 	};
 
 	/// <summary>
@@ -45,6 +50,7 @@ namespace ai
 		}
 
 		void Think(Unit& unit, GameWorld& world) override;
+		bool canAct(const Unit& unit, const GameWorld& world) const override;
 
 	protected:
 		/// <summary>

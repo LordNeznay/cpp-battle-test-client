@@ -24,7 +24,19 @@ public:
 	/// <param name="radiusMax">Максимальный радиус (включительно)</param>
 	/// <returns></returns>
 	static std::vector<Unit*> getUnitsInRadius(
-		Map& map, const Vec2& pos, int radiusMin, int radiusMax, const std::function<bool(const Unit& unit)> filter);
+		const Map& map, const Vec2& pos, int radiusMin, int radiusMax, const std::function<bool(const Unit& unit)> filter);
+
+	/// <summary>
+	/// Собрать список юнитов в определенном радиусе от указанного юнита, которые удовлетворяют условию
+	/// </summary>
+	/// <returns></returns>
+	static std::vector<Unit*> getUnitsInRadius(
+		const Map& map,
+		const Unit& actor,
+		int radiusMin,
+		int radiusMax,
+		const std::function<bool(const Unit& unit)> filter,
+		bool excludeActor = true);
 
 	/// <summary>
 	/// Вспомогательные фильтры юнитов

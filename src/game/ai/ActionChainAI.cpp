@@ -10,3 +10,16 @@ void ai::ActionChainAI::Think(Unit& unit, GameWorld& world)
 		}
 	}
 }
+
+bool ai::ActionChainAI::canAct(const Unit& unit, const GameWorld& world) const
+{
+	for (auto& action : mActions)
+	{
+		if (action->canAct(unit, world))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}

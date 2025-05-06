@@ -25,6 +25,10 @@ public:
 	/// </summary>
 	/// <param name="world"></param>
 	virtual void Think(Unit& unit, GameWorld& world) = 0;
+	/// <summary>
+	/// Может ли юнит действовать в текущей ситуации
+	/// </summary>
+	virtual bool canAct(const Unit& unit, const GameWorld& world) const = 0;
 };
 
 namespace aspect
@@ -45,6 +49,11 @@ namespace aspect
 		/// <param name="unit">Юнит, для которого выполняется логика</param>
 		/// <param name="world">Игровой мир</param>
 		void Think(Unit& unit, GameWorld& world);
+
+		/// <summary>
+		/// Может ли юнит действовать в текущей ситуации
+		/// </summary>
+		bool canAct(const Unit& unit, const GameWorld& world) const;
 
 	protected:
 		std::unique_ptr<BaseAI> mImpl;

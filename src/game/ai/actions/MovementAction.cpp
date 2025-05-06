@@ -45,3 +45,7 @@ bool ai::action::Movement::exec(Unit& unit, GameWorld& world)
 
 	return true;
 }
+
+bool ai::action::Movement::canAct(const Unit& unit, const GameWorld& world) const {
+	return unit.getAspect<aspect::MovementTarget>() != nullptr;
+}

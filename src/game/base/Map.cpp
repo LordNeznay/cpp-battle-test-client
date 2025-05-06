@@ -104,7 +104,7 @@ std::vector<Vec2> Map::findPath(
 	return path;
 }
 
-void Map::forEachCellInRadius(const Vec2& center, int radiusMin, int radiusMax, const forEachCellInRadiusCb& visitCb)
+void Map::forEachCellInRadius(const Vec2& center, int radiusMin, int radiusMax, const forEachCellInRadiusCb& visitCb) const
 {
 	if (radiusMin < 0 || radiusMax < radiusMin)
 	{

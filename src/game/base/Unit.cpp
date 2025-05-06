@@ -3,6 +3,7 @@
 #include "game/aspects/MovementTargetAspect.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
 #include "game/aspects/PositionAspect.hpp"
+#include "game/aspects/AIAspect.hpp"
 
 #include "IO/System/EventLog.hpp"
 #include "IO/Events/MarchStarted.hpp"
@@ -40,4 +41,11 @@ bool Unit::isAlive() const {
 	}
 
 	return true;
+}
+
+bool Unit::canActOnNextStep(const GameWorld& world) const {
+	if (auto unitAI = getAspect<aspect::AI>())
+	{
+		return unitAI->canAct(*this, world);
+	}
 }

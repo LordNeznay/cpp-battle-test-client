@@ -4,6 +4,7 @@
 #include "game/base/GameWorld.hpp"
 #include "game/aspects/HealthAspect.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
+#include "game/aspects/PositionAspect.hpp"
 
 #include "IO/System/EventLog.hpp"
 #include "IO/Events/UnitAttacked.hpp"
@@ -29,7 +30,7 @@ void DamageHelper::applyDamage(GameWorld& world, const Unit& unitFrom, Unit& uni
 	}
 }
 
-std::vector<Unit*> DamageHelper::getUnitsInRadius(Map& map, 
+std::vector<Unit*> DamageHelper::getUnitsInRadius(const Map& map, 
 	const Vec2& pos, int radiusMin, int radiusMax, const std::function<bool(const Unit& unit)> filter)
 {
 	std::vector<Unit*> result;
@@ -37,7 +38,7 @@ std::vector<Unit*> DamageHelper::getUnitsInRadius(Map& map,
 	map.forEachCellInRadius(
 		pos,
 		radiusMin, radiusMax,
-		[&filter, &result](const Vec2& pos, MapCell& cell) { 
+		[&filter, &result](const Vec2& pos, const MapCell& cell) { 
 			std::copy_if(
 				cell.unitList.begin(),
 				cell.unitList.end(),
@@ -46,6 +47,34 @@ std::vector<Unit*> DamageHelper::getUnitsInRadius(Map& map,
 		});
 
 	return result;
+}
+
+std::vector<Unit*> DamageHelper::getUnitsInRadius(
+	const Map& map,
+	const Unit& actor,
+	int radiusMin,
+	int radiusMax,
+	const std::function<bool(const Unit& unit)> filter,
+	bool excludeActor)
+{
+	auto position = actor.getAspect<aspect::Position>();
+	if (not position)
+	{
+		return {};
+	}
+
+	auto targets = DamageHelper::getUnitsInRadius(
+		map,
+		position->getPosition(), radiusMin, radiusMax,
+		DamageHelper::Filters::IsAttackable);
+	if (excludeActor)
+	{
+		targets.erase(
+			std::remove_if(targets.begin(), targets.end(), [&actor](const auto& u) { return &actor == u; }),
+			targets.end());
+	}
+
+	return targets;
 }
 
 bool DamageHelper::Filters::IsAlive(const Unit& unit) {
