@@ -2,6 +2,7 @@
 
 class Map;
 class UnitPool;
+class RandomManager;
 
 namespace sw
 {
@@ -31,6 +32,7 @@ public:
 	/// Получить игровую карту, если она есть
 	/// </summary>
 	const Map* getGameMap() const;
+	Map* getGameMap();
 
 	/// <summary>
 	/// Устанавливаем логгер игровых событий
@@ -88,6 +90,12 @@ public:
 	/// <param name="cmd">Настройки перемещения</param>
 	void marchStart(const sw::io::March& cmd);
 
+	/// <summary>
+	/// Получить менеджер рандома, используемый для генерации случайных чисел в этой симуляции
+	/// </summary>
+	/// <returns></returns>
+	RandomManager* getRandomManager();
+
 protected:
 	/// <summary>
 	/// Карта игрового мира
@@ -101,6 +109,10 @@ protected:
 	/// Логгер для игровых событий
 	/// </summary>
 	std::unique_ptr<sw::EventLog> mLogger;
+	/// <summary>
+	/// Менеджер рандома для симуляции
+	/// </summary>
+	std::unique_ptr<RandomManager> mRandomManager;
 	/// <summary>
 	/// Номер шага симуляции
 	/// </summary>

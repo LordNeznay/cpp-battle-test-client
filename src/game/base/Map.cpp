@@ -1,9 +1,13 @@
 #include "Map.hpp"
 #include <stack>
+#include <queue>
 #include <sstream>
 
 #include "game/base/Unit.hpp"
 #include "game/aspects/PositionAspect.hpp"
+
+// По часовой стрелке с LT
+const std::vector<Vec2> Map::sDefaultWalkDirections = {{-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
 
 Map::Map(int w, int h) :
 	mWidth(w),
@@ -25,6 +29,7 @@ int Map::getHeight() const
 std::vector<Vec2> Map::findPath(
 	const Vec2& from, const Vec2& to, const std::function<bool(const MapCell&)>& isCellFreeCb) const
 {
+	// Реализация поиска в глубину
 	std::vector<Vec2> path;
 
 	if (!isValidPos(from) || !isValidPos(to))
@@ -39,9 +44,6 @@ std::vector<Vec2> Map::findPath(
 	stack.push(from);
 	visited[posToIdx(from)] = true;
 
-	// По часовой стрелке с LT. В будущем стоит вынести в параметры для возможности использовать более сложное движение
-	std::vector<Vec2> directions = {{-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}};
-
 	while (!stack.empty())
 	{
 		Vec2 current = stack.top();
@@ -52,7 +54,7 @@ std::vector<Vec2> Map::findPath(
 			break;
 		}
 
-		for (const Vec2& dir : directions)
+		for (const Vec2& dir : sDefaultWalkDirections)
 		{
 			Vec2 next = {current.x + dir.x, current.y + dir.y};
 			if (!isValidPos(next))
@@ -92,6 +94,51 @@ std::vector<Vec2> Map::findPath(
 
 	std::reverse(path.begin(), path.end());
 	return path;
+}
+
+void Map::forEachCellInRadius(const Vec2& center, int radius, const forEachCellInRadiusCb& visitCb)
+{
+	if (radius < 0)
+	{
+		return;
+	}
+
+	std::queue<Vec2> queue;
+	std::vector<bool> visited(mWidth * mHeight, false);
+
+	queue.push(center);
+	visited[posToIdx(center)] = true;
+
+	while (!queue.empty())
+	{
+		Vec2 current = queue.front();
+		queue.pop();
+
+		int dx = current.x - center.x;
+		int dy = current.y - center.y;
+		if (abs(dx) + abs(dy) > radius)
+		{
+			continue;
+		}
+
+		visitCb(current, *getCell(current));
+
+		for (const Vec2& dir : sDefaultWalkDirections)
+		{
+			Vec2 next = {current.x + dir.x, current.y + dir.y};
+			if (!isValidPos(next))
+			{
+				continue;
+			}
+
+			int idx = posToIdx(next);
+			if (!visited[idx])
+			{
+				visited[idx] = true;
+				queue.push(next);
+			}
+		}
+	}
 }
 
 int Map::posToIdx(const Vec2& pos) const

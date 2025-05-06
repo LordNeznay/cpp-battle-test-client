@@ -11,7 +11,14 @@ class Unit;
 class BaseAI
 {
 public:
+	BaseAI() = default;
 	virtual ~BaseAI() = default;
+
+	BaseAI(BaseAI&&) = default;
+	BaseAI& operator=(BaseAI&&) = default;
+
+	BaseAI(const BaseAI&) = delete;
+	BaseAI& operator=(const BaseAI&) = delete;
 
 	/// <summary>
 	/// Выполняем логику ИИ для юнита

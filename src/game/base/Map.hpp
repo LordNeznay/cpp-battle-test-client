@@ -11,6 +11,9 @@ public:
 class Map
 {
 public:
+	static const std::vector<Vec2> sDefaultWalkDirections;
+
+public:
 	Map(int w, int h);
 
 	/// <summary>
@@ -59,6 +62,15 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	std::string makeDebugView() const;
+
+	/// <summary>
+	/// Обходим клетки начиная с указанной. Обходим по кругам начиная с наименьшего, пока не достигнем указанного радиуса
+	/// </summary>
+	/// <param name="center">Точка, от которой идет обход</param>
+	/// <param name="radius">Радиус обхода</param>
+	/// <param name="visitCb">Коллбек для каждой клетки</param>
+	using forEachCellInRadiusCb = const std::function<void(const Vec2&/* pos */, MapCell& /* cell */)>;
+	void forEachCellInRadius(const Vec2& center, int radius, forEachCellInRadiusCb& visitCb);
 
 protected:
 	/// <summary>

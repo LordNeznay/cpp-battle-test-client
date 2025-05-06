@@ -2,6 +2,7 @@
 
 #include "game/base/Map.hpp"
 #include "game/base/UnitPool.hpp"
+#include "game/base/RandomManager.hpp"
 #include "game/unit_creators/SwordsmanCreator.hpp"
 #include "game/aspects/HealthAspect.hpp"
 #include "game/aspects/DeathStatusAspect.hpp"
@@ -17,6 +18,7 @@
 GameWorld::GameWorld()
 {
 	mUnitPool = std::make_unique<UnitPool>();
+	mRandomManager = std::make_unique<RandomManager>(0);
 }
 
 GameWorld::~GameWorld() = default;
@@ -42,6 +44,11 @@ void GameWorld::setGameMap(std::unique_ptr<Map> map)
 }
 
 const Map* GameWorld::getGameMap() const
+{
+	return mMap.get();
+}
+
+Map* GameWorld::getGameMap()
 {
 	return mMap.get();
 }
@@ -127,4 +134,9 @@ void GameWorld::printState()
 	}
 
 	std::cout << std::endl;
+}
+
+RandomManager* GameWorld::getRandomManager()
+{
+	return mRandomManager.get();
 }

@@ -10,7 +10,14 @@ namespace ai
 	class Action
 	{
 	public:
+		Action() = default;
 		virtual ~Action() = default;
+
+		Action(Action&&) = default;
+		Action& operator=(Action&&) = default;
+
+		Action(const Action&) = delete;
+		Action& operator=(const Action&) = delete;
 
 		/// <summary>
 		/// Выполняем действие
@@ -28,11 +35,6 @@ namespace ai
 	{
 	public:
 		ActionChainAI() = default;
-		ActionChainAI(ActionChainAI&&) = default;
-		ActionChainAI& operator=(ActionChainAI&&) = default;
-
-		ActionChainAI(const ActionChainAI&) = delete;
-		ActionChainAI& operator=(const ActionChainAI&) = delete;
 
 		/// <summary>
 		/// Добавляем действие в цепочку
