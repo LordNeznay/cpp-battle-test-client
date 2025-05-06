@@ -49,6 +49,11 @@ public:
 	void step();
 
 	/// <summary>
+	/// Печатаем состояние мира
+	/// </summary>
+	void printState();
+
+	/// <summary>
 	/// Симулировать игровой мир до конца
 	/// </summary>
 	void simulate();

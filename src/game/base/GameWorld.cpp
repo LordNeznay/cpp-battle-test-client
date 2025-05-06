@@ -3,6 +3,8 @@
 #include "game/base/Map.hpp"
 #include "game/base/UnitPool.hpp"
 #include "game/unit_creators/SwordsmanCreator.hpp"
+#include "game/aspects/HealthAspect.hpp"
+#include "game/aspects/DeathStatusAspect.hpp"
 
 #include "IO/System/EventLog.hpp"
 #include "IO/Events/MapCreated.hpp"
@@ -68,8 +70,7 @@ void GameWorld::simulate()
 		mSimulationStep += 1;
 		step();
 
-		std::cout << std::format("Step: {}\n", mSimulationStep);
-		std::cout << mMap->makeDebugView() << std::endl; // TODO: remove
+		printState(); // TODO: remove
 	}
 }
 
@@ -96,4 +97,30 @@ void GameWorld::spawnHunter(const sw::io::SpawnHunter& cmd)
 void GameWorld::marchStart(const sw::io::March& cmd)
 {
 	// TODO
+}
+
+void GameWorld::printState()
+{
+	std::cout << std::format("Step: {}\n", mSimulationStep);
+	std::cout << mMap->makeDebugView();
+
+	for (auto& unit : *mUnitPool)
+	{
+		bool isDead = false;
+		std::optional<int> hp;
+
+		if (auto data = unit->getAspect<aspect::Health>())
+		{
+			hp = data->mHealthPoints;
+		}
+
+		if (auto data = unit->getAspect<aspect::DeathStatus>())
+		{
+			isDead = data->mIsDead;
+		}
+
+		std::cout << std::format("Unit {}. HP {}. IsDead {}", unit->getId(), hp.value_or(0), isDead) << std::endl;
+	}
+
+	std::cout << std::endl;
 }

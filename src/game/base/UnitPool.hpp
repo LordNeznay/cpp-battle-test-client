@@ -8,7 +8,6 @@ class GameWorld;
 class UnitPool
 {
 	using Storage = std::vector<std::unique_ptr<Unit>>;
-	using Iterator = Storage::iterator;
 
 public:
 	/// <summary>
@@ -21,6 +20,11 @@ public:
 	/// Удаляем мертвых юнитов
 	/// </summary>
 	void removeDeathUnits(GameWorld& world);
+
+	auto begin() { return mStorage.begin();	}
+	auto begin() const { return mStorage.begin();	}
+	auto end() { return mStorage.end();	}
+	auto end() const { return mStorage.end();	}
 
 protected:
 	Storage mStorage;

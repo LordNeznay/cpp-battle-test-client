@@ -78,7 +78,7 @@ int main(int argc, char** argv)
 		throw std::runtime_error("Error: Game world was not created");
 	}
 
-	std::cout << world->getGameMap()->makeDebugView() << std::endl;	 // TODO: remove
+	world->printState(); // TODO: remove
 	world->simulate();
 
 	//std::cout << "\n\nEvents:\n";
